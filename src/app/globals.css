@@ -1,24 +1,86 @@
 @import "tailwindcss";
 
 /* ============================================================
-   Moon Mist design tokens
-   ============================================================ */
-@theme {
-  --color-ink: #111111;
-  --color-ivory: #f5f3ee;
-  --color-sand: #e8e4dc;
-  --color-deep: #171a18;
-  --color-text: #181818;
-  /* Brand muted is #77736C; deepened slightly so body text passes WCAG AA on ivory and sand */
-  --color-muted: #66625b;
-  --color-bronze: #a88a5b;
-  --color-white: #ffffff;
-  /* Muted text tuned for dark backgrounds (AA contrast on #171A18 / #111) */
-  --color-mist: #b3ada3;
+   Moon Mist theme
+   Colours are CSS variables so the whole site can switch between
+   light and dark. Components use the semantic names below
+   (bg-canvas, text-fg, text-fg-muted, border-line, text-accent…).
 
+   - html[data-theme="dark"] switches the entire site to dark mode.
+   - .scheme-dark marks sections that stay dark in both modes
+     (hero, capabilities, CTA, footer…).
+   ============================================================ */
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+:root {
+  /* Light mode */
+  --canvas: #f5f3ee;
+  --canvas-2: #ece7de;
+  --card: #fbfaf7;
+  --fg: #181818;
+  /* Brand muted is #6F6A63; a touch deeper so body text passes WCAG AA on both light backgrounds */
+  --fg-muted: #6a655e;
+  --accent: #a88a5b;
+  --line: rgb(24 24 24 / 0.12);
+  --night: #111111;
+  --night-2: #1a1a1b;
+  --error: #a4443a;
+  /* The supplied wordmark is white; on light backgrounds it is rendered dark */
+  --logo-filter: brightness(0);
+  --photo-filter: none;
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --canvas: #0f0f10;
+  --canvas-2: #171719;
+  --card: #1b1c1f;
+  --fg: #f4f0e8;
+  --fg-muted: #b6b1a7;
+  --accent: #b89967;
+  --line: rgb(255 255 255 / 0.1);
+  --night: #141416;
+  --night-2: #1b1c1f;
+  --error: #e08a7f;
+  --logo-filter: none;
+  /* Calms bright photos slightly so they sit well on dark backgrounds */
+  --photo-filter: brightness(0.9) contrast(1.04);
+  color-scheme: dark;
+}
+
+/* Sections that are always dark */
+.scheme-dark {
+  --canvas: var(--night);
+  --canvas-2: var(--night-2);
+  --card: #1b1c1f;
+  --fg: #f4f0e8;
+  --fg-muted: #b6b1a7;
+  --accent: #b89967;
+  --line: rgb(255 255 255 / 0.12);
+  --error: #e08a7f;
+  --logo-filter: none;
+  color: var(--fg);
+}
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-canvas-2: var(--canvas-2);
+  --color-card: var(--card);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-accent: var(--accent);
+  --color-line: var(--line);
+  --color-night: var(--night);
+  --color-error: var(--error);
+  /* Fixed colours for text that always sits on photography */
+  --color-snow: #f4f0e8;
+  --color-coal: #111111;
+}
+
+@theme {
   --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-cormorant), ui-serif, Georgia, serif;
-
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -29,6 +91,7 @@
   html {
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
+    background: var(--canvas);
   }
 
   /* Lenis takes over smooth scrolling once it initialises */
@@ -44,8 +107,8 @@
   }
 
   body {
-    background: var(--color-ivory);
-    color: var(--color-text);
+    background: var(--canvas);
+    color: var(--fg);
     font-family: var(--font-sans);
     font-size: 16px;
     line-height: 1.6;
@@ -56,19 +119,14 @@
   }
 
   ::selection {
-    background: var(--color-bronze);
-    color: var(--color-white);
+    background: var(--accent);
+    color: #111111;
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-bronze);
+    outline: 2px solid var(--accent);
     outline-offset: 3px;
     border-radius: 2px;
-  }
-
-  section[id],
-  [id="top"] {
-    scroll-margin-top: 0;
   }
 
   h1,
@@ -79,6 +137,19 @@
   p {
     text-wrap: pretty;
   }
+}
+
+/* Smooth colour change while the theme toggles (class added for ~600ms) */
+html.theme-anim,
+html.theme-anim *,
+html.theme-anim *::before,
+html.theme-anim *::after {
+  transition:
+    background-color 0.6s var(--ease-out-expo),
+    color 0.6s var(--ease-out-expo),
+    border-color 0.6s var(--ease-out-expo),
+    fill 0.6s var(--ease-out-expo),
+    filter 0.6s var(--ease-out-expo) !important;
 }
 
 /* ============================================================
@@ -136,7 +207,15 @@
     letter-spacing: -0.01em;
   }
 
-  /* Buttons */
+  /* Supplied logo files */
+  .logo-adaptive {
+    filter: var(--logo-filter);
+  }
+  .photo {
+    filter: var(--photo-filter);
+  }
+
+  /* Buttons — colours follow the surrounding scheme */
   .btn {
     display: inline-flex;
     align-items: center;
@@ -161,34 +240,20 @@
   .btn:hover svg {
     transform: translateX(3px);
   }
-  .btn-light {
-    background: var(--color-ivory);
-    color: var(--color-ink);
+  .btn-primary {
+    background: var(--fg);
+    color: var(--canvas);
   }
-  .btn-light:hover {
-    background: var(--color-white);
+  .btn-primary:hover {
+    background: color-mix(in srgb, var(--fg) 86%, var(--canvas));
   }
-  .btn-dark {
-    background: var(--color-ink);
-    color: var(--color-ivory);
+  .btn-outline {
+    border: 1px solid color-mix(in srgb, var(--fg) 30%, transparent);
+    color: var(--fg);
   }
-  .btn-dark:hover {
-    background: #2a2a2a;
-  }
-  .btn-outline-light {
-    border: 1px solid rgb(245 243 238 / 0.4);
-    color: var(--color-ivory);
-  }
-  .btn-outline-light:hover {
-    border-color: var(--color-ivory);
-    background: rgb(245 243 238 / 0.08);
-  }
-  .btn-outline-dark {
-    border: 1px solid rgb(17 17 17 / 0.25);
-    color: var(--color-ink);
-  }
-  .btn-outline-dark:hover {
-    border-color: var(--color-ink);
+  .btn-outline:hover {
+    border-color: var(--fg);
+    background: color-mix(in srgb, var(--fg) 6%, transparent);
   }
 
   .link-underline {
@@ -203,28 +268,27 @@
     background-size: 100% 1px;
   }
 
-  /* Image hover zoom — elegant 1.02–1.04 scale */
+  /* Image hover zoom — elegant, barely there */
   .img-hover img {
     transition: transform 1.1s var(--ease-out-expo);
   }
   @media (hover: hover) {
     .img-hover:hover img {
-      transform: scale(1.035);
+      transform: scale(1.03);
     }
   }
 
-  /* Film grain overlay for dark cinematic sections */
+  /* Film grain for dark cinematic sections */
   .grain::after {
     content: "";
     position: absolute;
     inset: 0;
     pointer-events: none;
-    opacity: 0.09;
+    opacity: 0.06;
     mix-blend-mode: overlay;
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
   }
 
-  /* Marquee */
   .marquee-track {
     animation: marquee 48s linear infinite;
   }
@@ -234,7 +298,6 @@
     }
   }
 
-  /* Scroll cue line */
   .scroll-cue-line {
     animation: cue 2.4s var(--ease-out-expo) infinite;
     transform-origin: top;
@@ -265,40 +328,41 @@
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--color-muted);
+    color: var(--fg-muted);
     margin-bottom: 0.5rem;
   }
   .field {
     width: 100%;
     min-height: 52px;
     border: 0;
-    border-bottom: 1px solid rgb(17 17 17 / 0.2);
+    border-bottom: 1px solid color-mix(in srgb, var(--fg) 24%, transparent);
     background: transparent;
     padding: 0.75rem 0;
     font-size: 16px;
-    color: var(--color-text);
+    color: var(--fg);
     border-radius: 0;
     transition: border-color 0.3s ease;
     appearance: none;
   }
   .field:focus {
     outline: none;
-    border-bottom-color: var(--color-ink);
+    border-bottom-color: var(--fg);
   }
   .field:focus-visible {
     outline: none;
-    box-shadow: 0 1px 0 0 var(--color-bronze);
-    border-bottom-color: var(--color-bronze);
+    box-shadow: 0 1px 0 0 var(--accent);
+    border-bottom-color: var(--accent);
   }
   .field[aria-invalid="true"] {
-    border-bottom-color: #a4443a;
+    border-bottom-color: var(--error);
   }
   select.field {
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1.5l5 5 5-5' fill='none' stroke='%23181818' stroke-width='1.4'/></svg>");
-    background-repeat: no-repeat;
-    background-position: right 4px center;
     padding-right: 28px;
     cursor: pointer;
+  }
+  select.field option {
+    background: var(--canvas);
+    color: var(--fg);
   }
   textarea.field {
     resize: vertical;

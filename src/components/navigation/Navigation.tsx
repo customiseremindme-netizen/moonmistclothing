@@ -5,17 +5,19 @@ import { ArrowUpRight, Menu, X } from "lucide-react";
 import { navCta, navItems } from "@/data/content";
 import { site, whatsappHref, emailHref, phoneHref } from "@/config/site";
 import { getLenis, scrollToTarget } from "@/lib/lenis";
+import Logo from "@/components/ui/Logo";
+import ThemeToggle from "@/components/ui/ThemeToggle";
 
 type Theme = "dark" | "light";
 
 /**
  * Fixed header. Transparent over the hero; after scrolling it picks up a
- * translucent ivory or dark treatment depending on the section beneath it.
+ * translucent light or dark treatment depending on the section beneath it.
  * Sections declare their tone with data-nav-theme="dark" | "light".
  */
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false);
-  const [theme, setTheme] = useState<Theme>("dark");
+  const [theme, setTheme] = useState<Theme>("dark"); // tone of the section under the header
   const [active, setActive] = useState("#top");
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -101,23 +103,20 @@ export default function Navigation() {
     history.replaceState(null, "", href === "#top" ? location.pathname : href);
   };
 
-  const dark = theme === "dark";
-  const surface = !scrolled || open
-    ? "bg-transparent border-transparent"
-    : dark
-      ? "bg-ink/55 border-ivory/10 backdrop-blur-xl"
-      : "bg-ivory/75 border-ink/10 backdrop-blur-xl";
-  const tone = dark || open ? "text-ivory" : "text-ink";
+  // Over dark sections (or with the menu open) the header uses the dark scheme.
+  // In site-wide dark mode the colour variables are already dark everywhere.
+  const scheme = theme === "dark" || open ? "scheme-dark" : "";
+  const surface =
+    !scrolled || open ? "bg-transparent border-transparent" : "bg-canvas/70 border-line backdrop-blur-xl";
 
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color,color] duration-500 ${surface} ${tone}`}
+        className={`fixed inset-x-0 top-0 z-50 border-b text-fg transition-[background-color,border-color,color] duration-500 ${scheme} ${surface}`}
       >
         <nav aria-label="Main" className="container-x flex h-16 items-center justify-between gap-6 lg:h-[76px]">
-          <a href="#top" onClick={go("#top")} className="relative z-10 text-[15px] font-semibold tracking-[0.26em]">
-            {site.wordmark}
-            <span className="sr-only"> — home</span>
+          <a href="#top" onClick={go("#top")} className="relative z-10 block py-2" aria-label={`${site.name} — home`}>
+            <Logo className="h-[18px] w-auto transition-[filter] duration-500 sm:h-5" />
           </a>
 
           <ul className="hidden items-center gap-1 lg:flex">
@@ -144,10 +143,11 @@ export default function Navigation() {
           </ul>
 
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <a
               href={navCta.href}
               onClick={go(navCta.href)}
-              className={`btn hidden min-h-11 py-2.5 text-[13px] sm:inline-flex ${dark || open ? "btn-light" : "btn-dark"}`}
+              className="btn btn-primary hidden min-h-11 py-2.5 text-[13px] sm:inline-flex"
             >
               {navCta.label}
               <ArrowUpRight size={15} aria-hidden="true" />
@@ -175,7 +175,7 @@ export default function Navigation() {
         aria-modal="true"
         aria-label="Menu"
         inert={!open}
-        className={`fixed inset-0 z-40 flex flex-col bg-ink text-ivory transition-[clip-path] duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] lg:hidden ${
+        className={`scheme-dark fixed inset-0 z-40 flex flex-col bg-canvas text-fg transition-[clip-path] duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] lg:hidden ${
           open ? "[clip-path:inset(0_0_0_0)]" : "[clip-path:inset(0_0_100%_0)]"
         }`}
       >
@@ -199,11 +199,11 @@ export default function Navigation() {
           <div
             className={`space-y-5 transition-opacity duration-500 ${open ? "opacity-100 delay-500" : "opacity-0"}`}
           >
-            <a href={navCta.href} onClick={go(navCta.href)} className="btn btn-light w-full">
+            <a href={navCta.href} onClick={go(navCta.href)} className="btn btn-primary w-full">
               {navCta.label}
               <ArrowUpRight size={16} aria-hidden="true" />
             </a>
-            <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-mist">
+            <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-fg-muted">
               <a href={phoneHref()} onClick={phoneHref().startsWith("#") ? go(phoneHref()) : undefined}>
                 {site.contact.phone}
               </a>

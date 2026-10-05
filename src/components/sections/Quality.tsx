@@ -9,7 +9,7 @@ export default function Quality() {
       id="quality"
       data-nav-theme="light"
       aria-labelledby="quality-title"
-      className="bg-ivory py-24 text-ink sm:py-32 lg:py-40"
+      className="bg-canvas py-24 text-fg sm:py-32 lg:py-40"
     >
       <div className="container-x">
         <div className="max-w-4xl">
@@ -22,16 +22,16 @@ export default function Quality() {
         <div className="mt-16 grid gap-12 sm:mt-20 lg:grid-cols-12 lg:gap-16">
           <MediaFrame
             image={quality.image}
-            parallax={7}
+            parallax={4}
             sizes="(min-width: 1024px) 55vw, 92vw"
             className="aspect-[4/3] rounded-sm lg:col-span-7 lg:aspect-auto lg:min-h-[640px]"
           />
 
-          <ul data-reveal="stagger" className="divide-y divide-ink/10 border-y border-ink/10 lg:col-span-5 lg:self-center">
+          <ul data-reveal="stagger" className="divide-y divide-line border-y border-line lg:col-span-5 lg:self-center">
             {quality.checks.map((check, i) => (
               <li key={check.title} className="flex gap-5 py-6 sm:py-7">
                 <span
-                  className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full border border-bronze/60 text-bronze"
+                  className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full border border-accent/60 text-accent"
                   aria-hidden="true"
                 >
                   <Check size={15} strokeWidth={2} />
@@ -41,7 +41,7 @@ export default function Quality() {
                     <span className="sr-only">Step {i + 1}: </span>
                     {check.title}
                   </h3>
-                  <p className="mt-1.5 text-base leading-relaxed text-muted">{check.copy}</p>
+                  <p className="mt-1.5 text-base leading-relaxed text-fg-muted">{check.copy}</p>
                 </div>
               </li>
             ))}

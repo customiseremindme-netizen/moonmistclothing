@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Manrope } from "next/font/google";
 import "./globals.css";
 import { site } from "@/config/site";
+import { themeInitScript } from "@/lib/theme-script";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -31,7 +32,7 @@ export const metadata: Metadata = {
     title: site.seo.title,
     description: site.seo.description,
     locale: "en_IN",
-    images: [{ url: site.seo.ogImage, width: 1920, height: 1080, alt: "Moon Mist garment manufacturing floor in Tiruppur" }],
+    images: [{ url: site.seo.ogImage, width: 1672, height: 941, alt: "Moon Mist garment manufacturing floor in Tiruppur" }],
   },
   twitter: {
     card: "summary_large_image",
@@ -44,7 +45,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#111111",
+  themeColor: "#F5F3EE",
   width: "device-width",
   initialScale: 1,
 };
@@ -56,7 +57,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en-IN" className={`${manrope.variable} ${cormorant.variable}`} suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: motionScript }} />
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript + motionScript }} />
         <noscript>
           <style>{`[data-preloader]{display:none!important}`}</style>
         </noscript>

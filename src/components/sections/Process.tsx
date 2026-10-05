@@ -54,7 +54,7 @@ export default function Process() {
       id="process"
       data-nav-theme="light"
       aria-labelledby="process-title"
-      className="relative bg-sand py-24 text-ink sm:py-32 lg:py-40"
+      className="relative bg-canvas-2 py-24 text-fg sm:py-32 lg:py-40"
     >
       <div className="container-x">
         <div className="max-w-4xl">
@@ -68,7 +68,7 @@ export default function Process() {
           {/* Sticky image panel (desktop) */}
           <div className="hidden lg:col-span-6 lg:block">
             <div className="sticky top-28">
-              <div className="relative aspect-[5/4] overflow-hidden rounded-sm bg-ink">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-sm bg-coal">
                 {process.stages.map((stage, i) => (
                   <div
                     key={stage.title}
@@ -81,13 +81,15 @@ export default function Process() {
                       src={stage.image.src}
                       alt={i === active ? stage.image.alt : ""}
                       fill
-                      sizes="45vw"
-                      className="object-cover"
+                      sizes="(min-width: 1440px) 640px, 45vw"
+                      quality={85}
+                      className="photo object-cover"
+                      style={{ objectPosition: stage.image.position }}
                     />
                   </div>
                 ))}
-                <div className="absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent" aria-hidden="true" />
-                <div className="absolute inset-x-6 bottom-5 flex items-end justify-between text-ivory">
+                <div className="absolute inset-0 bg-gradient-to-t from-coal/60 via-transparent to-transparent" aria-hidden="true" />
+                <div className="absolute inset-x-6 bottom-5 flex items-end justify-between text-snow">
                   <span className="font-serif text-7xl italic leading-none">{String(active + 1).padStart(2, "0")}</span>
                   <span className="pb-2 text-[11px] font-semibold uppercase tracking-[0.22em]">
                     {process.stages[active].title}
@@ -99,10 +101,10 @@ export default function Process() {
 
           {/* Steps with progress line */}
           <ol data-steps className="relative lg:col-span-6 lg:pt-6">
-            <span className="absolute bottom-0 left-[15px] top-0 w-px bg-ink/15" aria-hidden="true" />
+            <span className="absolute bottom-0 left-[15px] top-0 w-px bg-line" aria-hidden="true" />
             <span
               data-line-fill
-              className="absolute bottom-0 left-[15px] top-0 w-px origin-top bg-bronze"
+              className="absolute bottom-0 left-[15px] top-0 w-px origin-top bg-accent"
               aria-hidden="true"
             />
             {process.stages.map((stage, i) => {
@@ -111,7 +113,7 @@ export default function Process() {
                 <li key={stage.title} data-step={i} className="relative pb-16 pl-14 last:pb-0 sm:pb-20 lg:pb-28">
                   <span
                     className={`absolute left-0 top-0 grid h-[31px] w-[31px] place-items-center rounded-full border text-[11px] font-semibold transition-colors duration-500 ${
-                      on ? "border-bronze bg-bronze text-ink" : "border-ink/20 bg-sand text-muted"
+                      on ? "border-accent bg-accent text-coal" : "border-line bg-canvas-2 text-fg-muted"
                     }`}
                     aria-hidden="true"
                   >
@@ -122,9 +124,16 @@ export default function Process() {
                   >
                     {stage.title}
                   </h3>
-                  <p className="mt-4 max-w-md text-base leading-relaxed text-muted">{stage.copy}</p>
-                  <div className="relative mt-6 aspect-[16/10] overflow-hidden rounded-sm bg-ink lg:hidden">
-                    <Image src={stage.image.src} alt={stage.image.alt} fill sizes="(min-width: 640px) 80vw, 85vw" className="object-cover" />
+                  <p className="mt-4 max-w-md text-base leading-relaxed text-fg-muted">{stage.copy}</p>
+                  <div className="relative mt-6 aspect-[16/10] overflow-hidden rounded-sm bg-coal lg:hidden">
+                    <Image
+                      src={stage.image.src}
+                      alt={stage.image.alt}
+                      fill
+                      sizes="(min-width: 640px) 80vw, 85vw"
+                      className="photo object-cover"
+                      style={{ objectPosition: stage.image.position }}
+                    />
                   </div>
                 </li>
               );

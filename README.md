@@ -13,6 +13,8 @@ Built with Next.js (App Router), TypeScript, Tailwind CSS, GSAP + ScrollTrigger,
 | Phone, WhatsApp, email, business hours, Instagram, directions link, website address, SEO title/description | `src/config/site.ts` |
 | Any heading, paragraph, list, product category, process step, form dropdown options, image choices | `src/data/content.ts` |
 | Images | `public/images/` (replace a file with a new one **using the same file name**) |
+| Logos | `public/brand/` (supplied files; the white wordmark is shown dark automatically on light backgrounds) |
+| Colours (light + dark mode) | `src/app/globals.css`, top of the file |
 
 Placeholders such as `[ADD PHONE]`, `[ADD WHATSAPP]` and `[ADD EMAIL]` appear on the site until you fill them in `src/config/site.ts`.
 While a value is still a placeholder, its buttons scroll to the enquiry form instead of opening a broken link.
@@ -112,8 +114,16 @@ src/
   data/content.ts        ← all website copy and image choices
   lib/                   gsap, lenis, validation, enquiry storage
 public/images/           supplied photography (do not rename)
-docs/                    original brief and asset notes
+public/brand/            supplied Moon Mist logos (do not redraw)
+docs/                    briefs and asset notes
 ```
+
+### Dark mode
+
+- The sun/moon button in the navigation switches themes. The choice is saved in the browser (`localStorage`, key `moonmist-theme`).
+- First-time visitors get their device's light/dark setting.
+- A tiny script in `layout.tsx` applies the theme before the page paints, so there is no flash.
+- Colours are CSS variables in `globals.css`: `:root` holds light mode, `[data-theme="dark"]` holds dark mode, and `.scheme-dark` marks sections that stay dark in both modes.
 
 ### Motion notes
 
@@ -126,4 +136,4 @@ docs/                    original brief and asset notes
 
 ## Content honesty
 
-The supplied images are AI-generated visual direction (see `docs/README_ASSETS.txt`). Before launch, replace any image that doesn't accurately represent the real factory, staff or products with approved photography. Don't add capacity numbers, certifications, client names or export claims unless they are real.
+Before launch, check that every photo accurately represents the real factory, staff and products, and replace any that don't with approved photography (same file name). Don't add capacity numbers, certifications, client names or export claims unless they are real.

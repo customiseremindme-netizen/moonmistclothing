@@ -1,13 +1,10 @@
-type Props = { children: React.ReactNode; tone?: "dark" | "light"; className?: string };
+type Props = { children: React.ReactNode; className?: string };
 
-/** Small, widely tracked uppercase label with a bronze rule. */
-export default function Overline({ children, tone = "light", className = "" }: Props) {
+/** Small, widely tracked uppercase label with an accent rule. */
+export default function Overline({ children, className = "" }: Props) {
   return (
-    <p
-      data-reveal="fade"
-      className={`eyebrow flex items-center gap-3 ${tone === "dark" ? "text-mist" : "text-muted"} ${className}`}
-    >
-      <span className="h-px w-8 bg-bronze" aria-hidden="true" />
+    <p data-reveal="fade" className={`eyebrow flex items-center gap-3 text-fg-muted ${className}`}>
+      <span className="h-px w-8 bg-accent" aria-hidden="true" />
       {children}
     </p>
   );

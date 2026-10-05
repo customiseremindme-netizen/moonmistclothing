@@ -14,7 +14,7 @@ export default function BackToTop() {
       className="group inline-flex min-h-12 items-center gap-3 text-sm font-medium"
     >
       Back to top
-      <span className="grid h-11 w-11 place-items-center rounded-full border border-ivory/25 transition-colors duration-500 group-hover:border-ivory">
+      <span className="grid h-11 w-11 place-items-center rounded-full border border-fg/25 transition-colors duration-500 group-hover:border-fg">
         <ArrowUp size={16} aria-hidden="true" className="transition-transform duration-500 group-hover:-translate-y-0.5" />
       </span>
     </button>

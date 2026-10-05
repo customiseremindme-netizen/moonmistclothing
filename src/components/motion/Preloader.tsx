@@ -6,6 +6,7 @@ import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { getLenis } from "@/lib/lenis";
 import { markLoaded } from "./loaded";
 import { preloader } from "@/data/content";
+import Logo from "@/components/ui/Logo";
 
 const MIN_MS = 750; // never flash too quickly
 const MAX_MS = 2400; // never hold visitors hostage
@@ -70,21 +71,21 @@ export default function Preloader() {
       ref={root}
       data-preloader
       aria-hidden="true"
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-ink text-ivory"
+      className="scheme-dark fixed inset-0 z-[100] flex flex-col items-center justify-center bg-canvas text-fg"
       style={{ clipPath: "inset(0% 0% 0% 0%)" }}
     >
       <div className="overflow-hidden">
-        <p data-text className="text-[clamp(2rem,6vw,4rem)] font-medium tracking-[0.18em]">
-          {preloader.title}
-        </p>
+        <div data-text>
+          <Logo className="h-7 w-auto sm:h-9" sizes="320px" />
+        </div>
       </div>
-      <div className="mt-3 overflow-hidden">
-        <p data-text className="eyebrow text-mist">
+      <div className="mt-4 overflow-hidden">
+        <p data-text className="eyebrow text-fg-muted">
           {preloader.subtitle}
         </p>
       </div>
-      <div className="mt-10 h-px w-40 bg-ivory/15 sm:w-56">
-        <div data-bar className="h-full origin-left bg-bronze" style={{ transform: "scaleX(0)" }} />
+      <div className="mt-10 h-px w-40 bg-fg/15 sm:w-56">
+        <div data-bar className="h-full origin-left bg-accent" style={{ transform: "scaleX(0)" }} />
       </div>
     </div>
   );

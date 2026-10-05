@@ -13,6 +13,7 @@ type Props = {
   hover?: boolean;
   /** Mark as decorative (alt="") when nearby text already describes it. */
   decorative?: boolean;
+  quality?: 75 | 85;
   children?: React.ReactNode;
 };
 
@@ -25,16 +26,25 @@ export default function MediaFrame({
   reveal = true,
   hover = false,
   decorative = false,
+  quality = 85,
   children,
 }: Props) {
   return (
     <figure
       data-reveal={reveal ? "clip" : undefined}
       data-parallax={parallax || undefined}
-      className={`relative overflow-hidden bg-sand ${hover ? "img-hover" : ""} ${className}`}
+      className={`relative overflow-hidden bg-canvas-2 ${hover ? "img-hover" : ""} ${className}`}
     >
       <div data-parallax-target className="absolute inset-0">
-        <Image src={image.src} alt={decorative ? "" : image.alt} fill sizes={sizes} className="object-cover" />
+        <Image
+          src={image.src}
+          alt={decorative ? "" : image.alt}
+          fill
+          sizes={sizes}
+          quality={quality}
+          className="photo object-cover"
+          style={{ objectPosition: image.position }}
+        />
       </div>
       {children}
     </figure>

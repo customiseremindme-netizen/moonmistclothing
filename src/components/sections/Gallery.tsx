@@ -7,7 +7,17 @@ import Overline from "@/components/ui/Overline";
 import { gallery } from "@/data/content";
 import { getLenis } from "@/lib/lenis";
 
-/** Editorial masonry gallery with a simple, keyboard-friendly lightbox. */
+const LAYOUT = [
+  "col-span-2 aspect-[4/3] lg:col-span-7 lg:aspect-auto lg:h-[480px]",
+  "col-span-2 aspect-[4/3] sm:col-span-1 lg:col-span-5 lg:aspect-auto lg:h-[480px]",
+  "aspect-square sm:col-span-1 sm:aspect-[4/3] lg:col-span-4 lg:aspect-auto lg:h-[340px]",
+  "aspect-square sm:aspect-[4/3] lg:col-span-4 lg:aspect-auto lg:h-[340px]",
+  "col-span-2 aspect-[4/3] sm:col-span-1 lg:col-span-4 lg:aspect-auto lg:h-[340px]",
+  "col-span-2 aspect-[4/3] sm:col-span-1 lg:col-span-5 lg:aspect-auto lg:h-[480px]",
+  "col-span-2 aspect-[4/3] sm:col-span-1 lg:col-span-7 lg:aspect-auto lg:h-[480px]",
+];
+
+/** Editorial gallery with a simple, keyboard-friendly lightbox. */
 export default function Gallery() {
   const [index, setIndex] = useState<number | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -41,7 +51,7 @@ export default function Gallery() {
   const current = index === null ? null : gallery.items[index];
 
   return (
-    <section data-nav-theme="light" aria-labelledby="gallery-title" className="bg-ivory py-24 text-ink sm:py-32 lg:py-40">
+    <section data-nav-theme="light" aria-labelledby="gallery-title" className="bg-canvas py-24 text-fg sm:py-32 lg:py-40">
       <div className="container-x">
         <div className="mb-14 max-w-3xl sm:mb-20">
           <Overline>{gallery.overline}</Overline>
@@ -50,20 +60,22 @@ export default function Gallery() {
           </h2>
         </div>
 
-        <ul className="columns-2 gap-3 sm:gap-5 lg:columns-3 lg:gap-6">
+        {/* Modular editorial grid: rows of 7/5, 4/4/4 and 5/7 columns on desktop */}
+        <ul className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-12 lg:gap-6">
           {gallery.items.map((img, i) => (
-            <li key={img.src} className="mb-3 break-inside-avoid sm:mb-5 lg:mb-6">
+            <li key={img.src} className={LAYOUT[i % LAYOUT.length]}>
               <figure
                 data-reveal="clip"
-                className="img-hover group relative overflow-hidden rounded-sm bg-sand"
-                style={{ aspectRatio: `${img.width} / ${img.height}` }}
+                className="img-hover group relative h-full overflow-hidden rounded-sm bg-canvas-2"
               >
                 <Image
                   src={img.src}
                   alt={img.alt}
                   fill
-                  sizes="(min-width: 1024px) 30vw, 46vw"
-                  className="object-cover"
+                  quality={85}
+                  sizes="(min-width: 1024px) 58vw, (min-width: 640px) 50vw, 100vw"
+                  className="photo object-cover"
+                  style={{ objectPosition: img.position }}
                 />
                 <button
                   type="button"
@@ -71,7 +83,7 @@ export default function Gallery() {
                   className="absolute inset-0 flex items-end justify-end p-3 sm:p-4"
                   aria-label={`View larger: ${img.alt}`}
                 >
-                  <span className="grid h-10 w-10 place-items-center rounded-full bg-ivory/90 text-ink opacity-100 transition-opacity duration-500 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover:opacity-100 group-focus-within:opacity-100">
+                  <span className="grid h-10 w-10 place-items-center rounded-full bg-snow/90 text-coal opacity-100 transition-opacity duration-500 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover:opacity-100 group-focus-within:opacity-100">
                     <Plus size={18} aria-hidden="true" />
                   </span>
                 </button>
@@ -91,7 +103,7 @@ export default function Gallery() {
           if (e.target === e.currentTarget) close();
         }}
         aria-label="Image viewer"
-        className="m-0 h-full max-h-none w-full max-w-none bg-ink/95 p-0 text-ivory backdrop:bg-ink/80"
+        className="scheme-dark m-0 h-full max-h-none w-full max-w-none bg-canvas/95 p-0 text-fg backdrop:bg-coal/80"
       >
         {current && (
           <div className="flex h-full flex-col">
@@ -109,15 +121,15 @@ export default function Gallery() {
                 if (e.target === e.currentTarget) close();
               }}
             >
-              <Image src={current.src} alt={current.alt} fill sizes="100vw" className="object-contain" />
+              <Image src={current.src} alt={current.alt} fill quality={85} sizes="100vw" className="object-contain" />
             </div>
             <div className="container-x flex items-center justify-between gap-4 py-5">
-              <p className="text-sm text-mist">{current.alt}</p>
+              <p className="text-sm text-fg-muted">{current.alt}</p>
               <div className="flex gap-2">
-                <button type="button" onClick={() => step(-1)} className="grid h-12 w-12 place-items-center rounded-full border border-ivory/25 hover:border-ivory" aria-label="Previous image">
+                <button type="button" onClick={() => step(-1)} className="grid h-12 w-12 place-items-center rounded-full border border-fg/25 hover:border-fg" aria-label="Previous image">
                   <ChevronLeft size={20} aria-hidden="true" />
                 </button>
-                <button type="button" onClick={() => step(1)} className="grid h-12 w-12 place-items-center rounded-full border border-ivory/25 hover:border-ivory" aria-label="Next image">
+                <button type="button" onClick={() => step(1)} className="grid h-12 w-12 place-items-center rounded-full border border-fg/25 hover:border-fg" aria-label="Next image">
                   <ChevronRight size={20} aria-hidden="true" />
                 </button>
               </div>

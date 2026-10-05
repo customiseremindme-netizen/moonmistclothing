@@ -1,5 +1,6 @@
 import { ArrowUpRight, Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import Overline from "@/components/ui/Overline";
+import Logo from "@/components/ui/Logo";
 import { contact } from "@/data/content";
 import { site, phoneHref, emailHref, whatsappHref } from "@/config/site";
 
@@ -12,7 +13,7 @@ export default function Contact() {
   ];
 
   return (
-    <section id="contact" data-nav-theme="light" aria-labelledby="contact-title" className="bg-sand py-24 text-ink sm:py-32">
+    <section id="contact" data-nav-theme="light" aria-labelledby="contact-title" className="bg-canvas-2 py-24 text-fg sm:py-32">
       <div className="container-x grid gap-14 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-5">
           <Overline>{contact.overline}</Overline>
@@ -23,28 +24,31 @@ export default function Contact() {
 
         <div data-reveal="stagger" className="grid gap-10 sm:grid-cols-2 lg:col-span-7">
           <address className="not-italic">
-            <p className="text-2xl font-semibold tracking-[0.18em]">{site.wordmark}</p>
-            <p className="mt-2 text-base text-muted">{site.descriptor}</p>
+            <Logo className="h-7 w-auto" sizes="240px" />
+            <p className="mt-3 text-base text-fg-muted">
+              <span className="sr-only">{site.name} — </span>
+              {site.descriptor}
+            </p>
             <p className="mt-6 flex items-start gap-3 text-base">
-              <MapPin size={18} className="mt-1 shrink-0 text-bronze" aria-hidden="true" />
+              <MapPin size={18} className="mt-1 shrink-0 text-accent" aria-hidden="true" />
               {site.location.city}, {site.location.region}, {site.location.country}
             </p>
             <p className="mt-3 flex items-start gap-3 text-base">
-              <Clock size={18} className="mt-1 shrink-0 text-bronze" aria-hidden="true" />
+              <Clock size={18} className="mt-1 shrink-0 text-accent" aria-hidden="true" />
               {site.contact.hours}
             </p>
             <a
               href={site.contact.directionsUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn btn-dark mt-8"
+              className="btn btn-primary mt-8"
             >
               {contact.directionsLabel}
               <ArrowUpRight size={16} aria-hidden="true" />
             </a>
           </address>
 
-          <ul className="divide-y divide-ink/10 border-y border-ink/10">
+          <ul className="divide-y divide-line border-y border-line">
             {rows.map(({ icon: Icon, label, value, href, external }) => (
               <li key={label}>
                 <a
@@ -53,15 +57,15 @@ export default function Contact() {
                   rel={external ? "noopener noreferrer" : undefined}
                   className="group flex min-h-[72px] items-center gap-4 py-4"
                 >
-                  <Icon size={18} className="shrink-0 text-bronze" aria-hidden="true" />
+                  <Icon size={18} className="shrink-0 text-accent" aria-hidden="true" />
                   <span className="flex-1">
-                    <span className="block text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">{label}</span>
+                    <span className="block text-[11px] font-semibold uppercase tracking-[0.2em] text-fg-muted">{label}</span>
                     <span className="mt-0.5 block break-all text-base">{value}</span>
                   </span>
                   <ArrowUpRight
                     size={16}
                     aria-hidden="true"
-                    className="text-muted transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                    className="text-fg-muted transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
                   />
                 </a>
               </li>

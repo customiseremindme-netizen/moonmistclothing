@@ -1,6 +1,7 @@
 import { footer } from "@/data/content";
 import { site, instagramHref, whatsappHref, emailHref } from "@/config/site";
 import BackToTop from "@/components/ui/BackToTop";
+import Logo from "@/components/ui/Logo";
 
 export default function Footer() {
   const wa = whatsappHref();
@@ -11,13 +12,13 @@ export default function Footer() {
   ];
 
   return (
-    <footer data-nav-theme="dark" className="relative overflow-hidden bg-ink text-ivory">
+    <footer data-nav-theme="dark" className="scheme-dark relative overflow-hidden bg-canvas text-fg">
       <div className="container-x relative z-10 pb-10 pt-24 sm:pt-32">
         <div className="grid gap-14 lg:grid-cols-12">
           <div className="lg:col-span-5">
-            <p className="text-lg font-semibold tracking-[0.26em]">{site.wordmark}</p>
-            <p className="mt-3 font-serif text-2xl italic text-mist">{site.tagline}</p>
-            <p className="mt-6 max-w-xs text-sm leading-relaxed text-mist">
+            <Logo className="h-6 w-auto sm:h-7" sizes="260px" />
+            <p className="mt-3 font-serif text-2xl italic text-fg-muted">{site.tagline}</p>
+            <p className="mt-6 max-w-xs text-sm leading-relaxed text-fg-muted">
               {site.descriptor} · {site.location.city}, {site.location.region}, {site.location.country}
             </p>
           </div>
@@ -25,7 +26,7 @@ export default function Footer() {
           <nav aria-label="Footer" className="grid grid-cols-2 gap-10 sm:grid-cols-3 lg:col-span-7">
             {footer.columns.map((col) => (
               <div key={col.title}>
-                <h2 className="eyebrow text-mist">{col.title}</h2>
+                <h2 className="eyebrow text-fg-muted">{col.title}</h2>
                 <ul className="mt-5 space-y-1">
                   {col.links.map((link) => (
                     <li key={link.label}>
@@ -38,7 +39,7 @@ export default function Footer() {
               </div>
             ))}
             <div>
-              <h2 className="eyebrow text-mist">{footer.connectTitle}</h2>
+              <h2 className="eyebrow text-fg-muted">{footer.connectTitle}</h2>
               <ul className="mt-5 space-y-1">
                 {connect.map((link) => (
                   <li key={link.label}>
@@ -57,19 +58,16 @@ export default function Footer() {
           </nav>
         </div>
 
-        <div className="mt-20 flex flex-col-reverse gap-6 border-t border-ivory/10 pt-6 sm:mt-28 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-sm text-mist">{footer.copyright}</p>
+        <div className="mt-20 flex flex-col-reverse gap-6 border-t border-line pt-6 sm:mt-28 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm text-fg-muted">{footer.copyright}</p>
           <BackToTop />
         </div>
       </div>
 
-      {/* Large faded wordmark */}
-      <p
-        aria-hidden="true"
-        className="pointer-events-none -mb-[0.2em] select-none whitespace-nowrap text-center text-[17vw] font-semibold leading-none tracking-[-0.05em] text-ivory/[0.045]"
-      >
-        {site.wordmark}
-      </p>
+      {/* Large faded wordmark (the supplied logo file) */}
+      <div aria-hidden="true" className="pointer-events-none container-x -mb-[1.5vw] select-none opacity-[0.06]">
+        <Logo className="h-auto w-full" sizes="100vw" />
+      </div>
     </footer>
   );
 }

@@ -77,9 +77,9 @@ export default function Hero() {
       id="top"
       data-nav-theme="dark"
       aria-labelledby="hero-title"
-      className="relative h-[100svh] min-h-[600px] bg-ivory"
+      className="relative h-[100svh] min-h-[600px] bg-canvas"
     >
-      <div data-hero-frame className="absolute inset-0 overflow-hidden bg-ink">
+      <div data-hero-frame className="scheme-dark absolute inset-0 overflow-hidden bg-coal">
         <div data-hero-image className="absolute inset-0">
           <Image
             src={hero.image.src}
@@ -87,18 +87,19 @@ export default function Hero() {
             fill
             preload
             fetchPriority="high"
-            quality={85}
+            quality={90}
             sizes="100vw"
             className="object-cover"
+            style={{ objectPosition: hero.image.position }}
           />
         </div>
         {/* Tonal overlays for legibility */}
-        <div className="absolute inset-0 bg-gradient-to-b from-ink/55 via-ink/25 to-ink/80" aria-hidden="true" />
-        <div className="absolute inset-0 bg-gradient-to-r from-ink/60 via-ink/10 to-transparent" aria-hidden="true" />
+        <div className="absolute inset-0 bg-gradient-to-b from-coal/50 via-coal/15 to-coal/85" aria-hidden="true" />
+        <div className="absolute inset-0 bg-gradient-to-r from-coal/70 via-coal/25 to-transparent" aria-hidden="true" />
 
-        <div className="container-x relative flex h-full flex-col justify-end pb-24 pt-28 text-ivory sm:pb-28 lg:pb-32">
+        <div className="container-x relative flex h-full flex-col justify-end pb-24 pt-28 text-snow sm:pb-28 lg:pb-32">
           <div className="max-w-5xl">
-            <p data-hero-fade className="eyebrow mb-6 text-ivory/80">
+            <p data-hero-fade className="eyebrow mb-6 text-snow/80">
               {hero.overline}
             </p>
             <h1 id="hero-title" data-hero-title className="heading-xl">
@@ -109,15 +110,15 @@ export default function Hero() {
               ))}
             </h1>
             <div data-hero-copy className="mt-8 max-w-xl">
-              <p data-hero-fade className="text-base leading-relaxed text-ivory/85 sm:text-lg">
+              <p data-hero-fade className="text-base leading-relaxed text-snow/85 sm:text-lg">
                 {hero.copy}
               </p>
               <div data-hero-fade className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <a href={hero.primaryCta.href} className="btn btn-light">
+                <a href={hero.primaryCta.href} className="btn btn-primary">
                   {hero.primaryCta.label}
                   <ArrowRight size={16} aria-hidden="true" />
                 </a>
-                <a href={hero.secondaryCta.href} className="btn btn-outline-light">
+                <a href={hero.secondaryCta.href} className="btn btn-outline">
                   {hero.secondaryCta.label}
                 </a>
               </div>
@@ -126,13 +127,13 @@ export default function Hero() {
 
         </div>
 
-        <div data-hero-fade className="absolute inset-x-0 bottom-0 border-t border-ivory/15">
-          <div className="container-x flex items-center justify-between py-4 text-[11px] font-medium tracking-[0.2em] text-ivory/75 sm:py-5">
+        <div data-hero-fade className="absolute inset-x-0 bottom-0 border-t border-snow/15">
+          <div className="container-x flex items-center justify-between py-4 text-[11px] font-medium tracking-[0.2em] text-snow/75 sm:py-5">
             <span>{hero.microcopy}</span>
-            <a href="#about" className="hidden items-center gap-3 uppercase hover:text-ivory sm:flex">
+            <a href="#about" className="hidden items-center gap-3 uppercase hover:text-snow sm:flex">
               {hero.scrollCue} <span aria-hidden="true">↓</span>
-              <span className="relative block h-6 w-px overflow-hidden bg-ivory/20" aria-hidden="true">
-                <span className="scroll-cue-line absolute inset-0 bg-ivory" />
+              <span className="relative block h-6 w-px overflow-hidden bg-snow/20" aria-hidden="true">
+                <span className="scroll-cue-line absolute inset-0 bg-snow" />
               </span>
             </a>
           </div>
